@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app max-height="48px" color="#fafafa" dense>
-      <v-toolbar-title @click="$router.push({ name: 'Home' })">
+      <v-toolbar-title @click.exact="$router.push({ name: 'Home' })">
         <span id="title">GRADATION</span>
       </v-toolbar-title>
 
@@ -28,7 +28,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      baseURL: process.env.BASE_URL,
+    };
   },
 };
 </script>

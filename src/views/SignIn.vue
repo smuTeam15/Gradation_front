@@ -1,36 +1,65 @@
 <template>
   <v-container fill-height>
-    <v-row justify="center" align="center">
-      <v-card width="400">
+    <v-row align="center" justify="center">
+      <v-card class="d-inline-block" width="400">
         <v-card-title primary-title class="d-flex justify-center">
           소셜 미디어 계정으로 로그인
         </v-card-title>
-        <v-divider></v-divider>
-        <v-card-actions class="d-flex justify-center">
-          <NaverLogin
+        <v-divider />
+        <v-container>
+          <v-row justify="center" align="center">
+            <div class="my-3">
+              <v-card
+                width="244"
+                height="55"
+                href="/oauth2/authorization/naver"
+                flat
+              >
+                <v-img
+                  eager
+                  max-width="100%"
+                  max-height="100%"
+                  :src="require('@/assets/naver.png')"
+                />
+              </v-card>
+            </div>
+            <div class="mb-3">
+              <v-card
+                width="250"
+                height="60"
+                href="/oauth2/authorization/google"
+                flat
+              >
+                <v-img
+                  eager
+                  max-width="100%"
+                  max-height="100%"
+                  :src="require('@/assets/google.png')"
+                />
+              </v-card>
+            </div>
+            <!-- <NaverLogin
             client-id="qR0hTRf5VDeWwOnuVaug"
-            callback-url="http://localhost:8080/oauth2/authorization/naver"
+            callback-url="login/oauth2/code/naver"
             :is-popup="true"
             :callbackFunction="callbackFunction"
-          />
-          <GoogleLogin
+          /> -->
+            <!-- <GoogleLogin
             :params="params"
             :renderParams="renderParams"
             :onSuccess="onSuccess"
             :onFailure="onFailure"
-          ></GoogleLogin>
-        </v-card-actions>
+          ></GoogleLogin> -->
+          </v-row>
+        </v-container>
       </v-card>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import NaverLogin from "vue-naver-login";
-import GoogleLogin from "vue-google-login";
-
 export default {
-  components: { NaverLogin, GoogleLogin },
+  components: {},
   data() {
     return {
       // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
@@ -61,29 +90,6 @@ export default {
     },
     google() {
       window.open("http://localhost:8080/oauth2/authorization/google", "_self");
-    },
-    callbackFunction(status) {
-      if (status) {
-        /* (5) 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
-        var email = naverLogin.user.getEmail();
-        if (email == undefined || email == null) {
-          alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
-          /* (5-1) 사용자 정보 재동의를 위하여 다시 네아로 동의페이지로 이동함 */
-          naverLogin.reprompt();
-          return;
-        }
-
-        window.location.replace(
-          "http://" +
-            window.location.hostname +
-            (location.port == "" || location.port == undefined
-              ? ""
-              : ":" + location.port) +
-            "/sample/main.html"
-        );
-      } else {
-        console.log("callback 처리에 실패하였습니다.");
-      }
     },
   },
 };

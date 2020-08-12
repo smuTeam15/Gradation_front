@@ -8,9 +8,14 @@ export default new VueRouter({
   base: process.env.BASE_URL,
   routes: [
     {
-      name: "Home",
+      name: "SignIn",
       path: "/",
       component: () => import("@/views/SignIn.vue"),
+    },
+    {
+      name: "Home",
+      path: "/home",
+      component: () => import("@/views/Home.vue"),
     },
     {
       path: "/storysetting",
