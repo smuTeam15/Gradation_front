@@ -16,16 +16,13 @@ export default new VueRouter({
       redirect: "/"
     },
     {
-      path: "/decide",
-      redirect: "/home"
-    },
-    {
-      path: "/loginFail",
-      redirect: "/"
+      name: "Loading",
+      path: "/",
+      component: () => import("@/views/Loading.vue"),
     },
     {
       name: "SignIn",
-      path: "/",
+      path: "/signIn",
       component: () => import("@/views/SignIn.vue"),
     },
     {

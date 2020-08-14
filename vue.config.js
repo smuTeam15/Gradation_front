@@ -3,6 +3,7 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const { VuetifyProgressiveModule } = require('vuetify-loader');
 module.exports = {
   transpileDependencies: ["vuetify"],
+
   chainWebpack: (config) => {
 
     plugins: [
@@ -12,4 +13,5 @@ module.exports = {
     ];
   },
 
+  publicPath: '/v1'
 };
