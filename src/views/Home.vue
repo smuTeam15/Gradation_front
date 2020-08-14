@@ -14,7 +14,8 @@
         <v-hover>
           <template v-slot:default="{ hover }">
             <v-card
-              @click="$router.push({ name: 'MainPage' })"
+              router
+              :to="{ name: 'MainPage' }"
               class="mx-auto"
               max-width="300"
               max-height="350"
@@ -59,6 +60,124 @@
           </template>
         </v-hover>
       </v-col>
+      <v-app-bar app max-height="48px" color="white" dense bottom>
+        <strong class="mx-5"
+          >Copyright © GRADATION service team. All rights reserved.</strong
+        >
+        <v-speed-dial
+          v-model="fab"
+          fixed
+          bottom
+          right
+          direction="top"
+          open-on-hover
+          transition="slide-y-reverse-transition"
+        >
+          <template v-slot:activator>
+            <v-btn v-model="fab" color="blue darken-2" dark fab>
+              <v-icon v-if="fab">mdi-close</v-icon>
+              <v-icon v-else>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                @click="dialog = !dialog"
+                fab
+                dark
+                small
+                color="green"
+                v-on="on"
+                :attrs="attrs"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </template>
+            <span>Create Channel</span>
+          </v-tooltip>
+
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                @click="$router.push({ name: 'MainSetting' })"
+                fab
+                dark
+                small
+                color="indigo"
+                v-on="on"
+                :attrs="attrs"
+              >
+                <v-icon>mdi-delete-forever</v-icon>
+              </v-btn>
+            </template>
+            <span>Delete Channel</span>
+          </v-tooltip>
+        </v-speed-dial>
+
+        <!-- Feed 작성용 dialog -->
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <strong>채널 생성</strong>
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <div class="pt-3">
+                <v-text-field
+                  label="Solo"
+                  placeholder="1st School"
+                  solo
+                  append-outer-icon="mdi-ampersand"
+                ></v-text-field>
+                <v-text-field
+                  label="Solo"
+                  placeholder="2nd School"
+                  solo
+                ></v-text-field>
+              </div>
+              <div class="pb-3">
+                <v-file-input
+                  class="pt-0 mt-0"
+                  v-model="chosenFile"
+                  chips
+                  accept="image/png, image/jpeg, image/bmp"
+                  placeholder="School logo, You can select multiple images"
+                  prepend-icon="mdi-camera"
+                  counter
+                  show-size
+                ></v-file-input>
+              </div>
+              <div class="pt-3">
+                <v-select :items="items" label="Category" solo></v-select>
+              </div>
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-btn text color="grey darken-1" @click="dialog = false"
+                >Cancel</v-btn
+              >
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="
+                  posting({
+                    username,
+                    userImage,
+                    chosenFile,
+                    likes,
+                    hasBeenLiked,
+                    caption,
+                    comments,
+                    filter,
+                  })
+                "
+                >Create</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-app-bar>
     </v-row>
   </v-container>
 </template>
@@ -67,6 +186,8 @@
 export default {
   data() {
     return {
+      fab: false,
+      items: ["General", "Sports", "Culture", "Business", "Entertainment"],
       cards: [
         {
           title1: "Inha High",

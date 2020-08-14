@@ -8,6 +8,22 @@ export default new VueRouter({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/index.html",
+      redirect: "/"
+    },
+    {
+      path: "/index",
+      redirect: "/"
+    },
+    {
+      path: "/decide",
+      redirect: "/home"
+    },
+    {
+      path: "/loginFail",
+      redirect: "/"
+    },
+    {
       name: "SignIn",
       path: "/",
       component: () => import("@/views/SignIn.vue"),
@@ -18,6 +34,11 @@ export default new VueRouter({
       component: () => import("@/views/Home.vue"),
     },
     {
+      name: 'MainPage',
+      path: '/channel',
+      component: () => import("@/views/MainPage.vue"),
+    },
+    {
       path: "/storysetting",
       name: "StorySetting",
       // route level code-splitting
@@ -25,11 +46,6 @@ export default new VueRouter({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "setting" */ "@/views/StorySetting.vue"),
-    },
-    {
-      path: "/mainpage",
-      name: "MainPage",
-      component: () => import("@/views/MainPage.vue"),
     },
     {
       path: "/mainsetting",

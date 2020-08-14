@@ -20,6 +20,9 @@
         </div>
         <!-- FEED 영역 끝 -->
         <v-app-bar app max-height="48px" color="white" dense bottom>
+          <strong class="mx-5"
+            >Copyright © GRADATION service team. All rights reserved.</strong
+          >
           <v-speed-dial
             v-model="fab"
             fixed
@@ -35,9 +38,23 @@
                 <v-icon v-else>mdi-plus</v-icon>
               </v-btn>
             </template>
-            <v-btn @click="dialog = !dialog" fab dark small color="green">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
+
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="dialog = !dialog"
+                  fab
+                  dark
+                  small
+                  color="green"
+                  v-on="on"
+                  :attrs="attrs"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              <span>Create Feed</span>
+            </v-tooltip>
 
             <v-btn
               @click="$router.push({ name: 'MainSetting' })"

@@ -9,10 +9,14 @@
         <v-container>
           <v-row justify="center" align="center">
             <div class="my-3">
+              <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+              <NaverLoginForm />
+              Testing
               <v-card
                 width="244"
                 height="55"
-                href="/oauth2/authorization/naver"
+                router
+                :to="{ name: 'Home' }"
                 flat
               >
                 <v-img
@@ -22,14 +26,37 @@
                   :src="require('@/assets/naver.png')"
                 />
               </v-card>
+              REST(AJAX)
+              <v-card width="244" height="55" @click="naver()" flat>
+                <v-img
+                  eager
+                  max-width="100%"
+                  max-height="100%"
+                  :src="require('@/assets/naver.png')"
+                />
+              </v-card>
+              Anchor Tag
+              <v-card width="244" height="55" @click="nlogin()" flat>
+                <v-img
+                  eager
+                  max-width="100%"
+                  max-height="100%"
+                  :src="require('@/assets/naver.png')"
+                />
+              </v-card>
             </div>
             <div class="mb-3">
-              <v-card
-                width="250"
-                height="60"
-                href="/oauth2/authorization/google"
-                flat
-              >
+              REST(AJAX)
+              <v-card width="250" height="60" @click="google()" flat>
+                <v-img
+                  eager
+                  max-width="100%"
+                  max-height="100%"
+                  :src="require('@/assets/google.png')"
+                />
+              </v-card>
+              Anchor Tag
+              <v-card width="250" height="60" @click="glogin()" flat>
                 <v-img
                   eager
                   max-width="100%"
@@ -38,28 +65,26 @@
                 />
               </v-card>
             </div>
-            <!-- <NaverLogin
-            client-id="qR0hTRf5VDeWwOnuVaug"
-            callback-url="login/oauth2/code/naver"
-            :is-popup="true"
-            :callbackFunction="callbackFunction"
-          /> -->
-            <!-- <GoogleLogin
-            :params="params"
-            :renderParams="renderParams"
-            :onSuccess="onSuccess"
-            :onFailure="onFailure"
-          ></GoogleLogin> -->
           </v-row>
         </v-container>
       </v-card>
+      <v-app-bar app max-height="48px" color="white" dense bottom>
+        <strong class="mx-5"
+          >Copyright © GRADATION service team. All rights reserved.</strong
+        >
+      </v-app-bar>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+import NaverLoginForm from "@/components/Oauth/NaverLoginForm";
+
 export default {
-  components: {},
+  components: {
+    NaverLoginForm,
+  },
   data() {
     return {
       // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
@@ -76,20 +101,12 @@ export default {
     };
   },
   methods: {
-    onSuccess(googleUser) {
-      console.log(googleUser);
-
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getBasicProfile());
+    ...mapActions(["naver", "google"]),
+    glogin() {
+      window.open("/oauth2/authorization/google", "_self");
     },
-    onFailure(googleUser) {
-      console.log(googleUser);
-
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getBasicProfile());
-    },
-    google() {
-      window.open("http://localhost:8080/oauth2/authorization/google", "_self");
+    nlogin() {
+      window.open("/oauth2/authorization/naver", "_self");
     },
   },
 };
