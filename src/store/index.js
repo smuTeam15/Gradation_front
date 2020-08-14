@@ -22,70 +22,96 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    loginSuccess({ state }, payload) {
+    loginSuccess(state, payload) {
       state.User.userName = payload.data.userName;
       state.User.picture = payload.data.userName;
+      state.User.Channel = payload.data.Channel;
       state.Flag.isSigned = true;
-      router.push({ name: "Home", params: { id: state.User.userName } });
+      router.push({ name: "Home" });
     },
-    logOut({ state }) {
+    logOut(state) {
       state.User.userName = "";
       state.User.userName = "";
       state.Flag.isSigned = false;
+    },
+    read_channel(state, payload) {
+      state.User.Channel = payload.data.Channel;
     }
   },
   actions: {
-    naver({ commit }) {
-      axios
-        .get("/oauth2/authorization/naver", config)
-        .then((res) => {
-          if (res.status == 200) {
-            axios
-              .get("/")
-              .then((res) => {
-                if (res.status == 200) {
-                  commit("loginSuccess", res);
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    google({ commit }) {
-      axios
-        .get("/oauth2/authorization/google", config)
-        .then((res) => {
-          if (res.status == 200) {
-            axios
-              .get("/")
-              .then((res) => {
-                if (res.status == 200) {
-                  commit("loginSuccess", res);
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     loading({ commit }) {
       axios
         .get("/v1/login", config)
         .then((res) => {
+          // if (res.status == 200) {
           if (res.data.userName != null) {
             commit("loginSuccess", res);
           }
+          // }
           else {
             router.push({ name: "SignIn" });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    create_channel({ dispatch }, input) {
+      const forCreate = {
+        first_title: input.first_title,
+        second_title: input.second_title,
+        first_picture: input.first_picture,
+        second_picture: input.second_picture,
+        description: input.description
+      };
+      axios
+        .post("/api/v1/channel", forCreate, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    read_channel({ commit }) {
+      axios
+        .get("/api/v1/channel", config)
+        .then((res) => {
+          if (res.status == 200) {
+            commit("read_channel", res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    update_channel({ dispatch }, input) {
+      const forUpdate = {
+        first_title: input.first_title,
+        second_title: input.second_title,
+        first_picture: input.first_picture,
+        second_picture: input.second_picture,
+        description: input.description
+      };
+      axios
+        .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    delete_channel({ dispatch }) {
+      axios
+        .delete(`"/api/v1/channel/${channel_id}"`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
           }
         })
         .catch((err) => {

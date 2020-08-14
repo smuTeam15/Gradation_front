@@ -3,8 +3,8 @@
     <v-row dense wrap justify="start" align="start">
       <v-col
         cols="12"
-        v-for="card in cards"
-        :key="cards.indexOf(card)"
+        v-for="item in User.Channel"
+        :key="User.Channel.indexOf(item)"
         xs="12"
         sm="6"
         md="4"
@@ -21,49 +21,26 @@
               max-height="350"
             >
               <div class="my-1 d-flex justify-end">
-                <v-img
-                  class="ma-2"
-                  width="100"
-                  height="150"
-                  contain
-                  :src="card.src"
-                ></v-img>
-                <v-img
-                  class="ma-2"
-                  width="100"
-                  height="150"
-                  contain
-                  :src="card.src2"
-                ></v-img>
+                <v-img class="ma-2" width="100" height="150" contain :src="item.first_picture"></v-img>
+                <v-img class="ma-2" width="100" height="150" contain :src="item.first_picture"></v-img>
               </div>
               <v-divider />
               <v-card-text>
-                <h3
-                  v-text="`${card.title1} &`"
-                  class="title primary--text my-2"
-                ></h3>
-                <h3
-                  v-text="`${card.title2}`"
-                  class="title primary--text my-2"
-                ></h3>
-                <h4 v-text="`${card.descript}`"></h4>
-                <h5
-                  v-text="`${card.major}`"
-                  class="caption grey--text text--darken-2"
-                ></h5>
+                <h3 v-text="`${item.first_title} &`" class="title primary--text my-2"></h3>
+                <h3 v-text="`${item.second_title}`" class="title primary--text my-2"></h3>
+                <h4 v-text="`${item.description}`"></h4>
+                <h5 v-text="`${item.category}`" class="caption grey--text text--darken-2"></h5>
               </v-card-text>
 
               <v-fade-transition>
-                <v-overlay v-if="hover" absolute color="grey"> </v-overlay>
+                <v-overlay v-if="hover" absolute color="grey"></v-overlay>
               </v-fade-transition>
             </v-card>
           </template>
         </v-hover>
       </v-col>
       <v-app-bar app max-height="48px" color="white" dense bottom>
-        <strong class="mx-5"
-          >Copyright © GRADATION service team. All rights reserved.</strong
-        >
+        <strong class="mx-5">Copyright © GRADATION service team. All rights reserved.</strong>
         <v-speed-dial
           v-model="fab"
           fixed
@@ -124,27 +101,29 @@
             <v-card-text>
               <div class="pt-3">
                 <v-text-field
+                  v-model="first_school"
                   label="Solo"
                   placeholder="1st School"
                   solo
                   append-outer-icon="mdi-ampersand"
                 ></v-text-field>
-                <v-text-field
-                  label="Solo"
-                  placeholder="2nd School"
-                  solo
-                ></v-text-field>
+                <v-text-field v-model="second_school" label="Solo" placeholder="2nd School" solo></v-text-field>
+                <v-text-field v-model="description" label="Solo" placeholder="Description" solo></v-text-field>
               </div>
               <div class="pb-3">
                 <v-file-input
-                  class="pt-0 mt-0"
-                  v-model="chosenFile"
-                  chips
+                  v-model="first_picture"
+                  label="1st School logo"
                   accept="image/png, image/jpeg, image/bmp"
-                  placeholder="School logo, You can select multiple images"
+                  chips
                   prepend-icon="mdi-camera"
-                  counter
-                  show-size
+                ></v-file-input>
+                <v-file-input
+                  v-model="second_picture"
+                  label="2nd School logo"
+                  accept="image/png, image/jpeg, image/bmp"
+                  chips
+                  prepend-icon="mdi-camera"
                 ></v-file-input>
               </div>
               <div class="pt-3">
@@ -153,27 +132,18 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn text color="grey darken-1" @click="dialog = false"
-                >Cancel</v-btn
-              >
+              <v-btn text color="grey darken-1" @click="dialog = false">Cancel</v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 text
                 color="primary"
-                @click="
-                  posting({
-                    username,
-                    userImage,
-                    chosenFile,
-                    likes,
-                    hasBeenLiked,
-                    caption,
-                    comments,
-                    filter,
-                  })
-                "
-                >Create</v-btn
-              >
+                @click="create_channel({
+                  first_title,
+                  second_title,
+                  first_picture,
+                  second_picture,
+                  description})"
+              >Create</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -183,10 +153,19 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return {
+      ...mapState(["User"]),
       fab: false,
+      dialog: false,
+      first_title: "",
+      second_title: "",
+      first_picture: null,
+      second_picture: null,
+      description: "",
       items: ["General", "Sports", "Culture", "Business", "Entertainment"],
       cards: [
         {
@@ -236,6 +215,14 @@ export default {
       ],
       overlay: false,
     };
+  },
+  methods: {
+    ...mapActions([
+      "create_channel",
+      "read_channel",
+      "update_channel",
+      "delete_channel",
+    ]),
   },
 };
 </script>
