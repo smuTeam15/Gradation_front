@@ -127,19 +127,19 @@
                 ></v-file-input>
               </div>
               <div class="pt-3">
-                <v-select :items="items" label="Category" solo></v-select>
+                <v-select v-model="category" :items="items" label="Category" solo></v-select>
               </div>
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn text color="grey darken-1" @click="dialog = false">Cancel</v-btn>
+              <v-btn text color="grey darken-1" @click="cancel()">Cancel</v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 text
                 color="primary"
                 @click="create_channel({
-                  first_title,
-                  second_title,
+                  first_school,
+                  second_school,
                   first_picture,
                   second_picture,
                   description})"
@@ -161,11 +161,12 @@ export default {
       ...mapState(["User"]),
       fab: false,
       dialog: false,
-      first_title: "",
-      second_title: "",
+      first_school: "",
+      second_school: "",
       first_picture: null,
       second_picture: null,
       description: "",
+      category: "",
       items: ["General", "Sports", "Culture", "Business", "Entertainment"],
       cards: [
         {
@@ -223,6 +224,13 @@ export default {
       "update_channel",
       "delete_channel",
     ]),
+    cancel() {
+      this.first_school = "";
+      this.second_school = "";
+      this.first_picture = null;
+      this.second_picture = null;
+      dialog = false;
+    },
   },
 };
 </script>
