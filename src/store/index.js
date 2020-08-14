@@ -79,7 +79,7 @@ export default new Vuex.Store({
     },
     loading({ commit }) {
       axios
-        .get("http://ec2-3-34-35-157.ap-northeast-2.compute.amazonaws.com:8080/v1/login", config)
+        .get("/v1/login", config)
         .then((res) => {
           if (res.data.userName != null) {
             commit("loginSuccess", res);

@@ -2,41 +2,45 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
-
+const baseURL = "/v1"
 export default new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
+      path: "/",
+      redirect: "/v1"
+    },
+    {
       path: "/index.html",
-      redirect: "/"
+      redirect: "/v1"
     },
     {
       path: "/index",
-      redirect: "/"
+      redirect: "/v1"
     },
     {
       name: "Loading",
-      path: "/",
+      path: "/v1",
       component: () => import("@/views/Loading.vue"),
     },
     {
       name: "SignIn",
-      path: "/signIn",
+      path: baseURL + "/signIn",
       component: () => import("@/views/SignIn.vue"),
     },
     {
       name: "Home",
-      path: "/home",
+      path: baseURL + "/home",
       component: () => import("@/views/Home.vue"),
     },
     {
       name: 'MainPage',
-      path: '/channel',
+      path: baseURL + '/channel',
       component: () => import("@/views/MainPage.vue"),
     },
     {
-      path: "/storysetting",
+      path: baseURL + "/storysetting",
       name: "StorySetting",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
@@ -45,22 +49,22 @@ export default new VueRouter({
         import(/* webpackChunkName: "setting" */ "@/views/StorySetting.vue"),
     },
     {
-      path: "/mainsetting",
+      path: baseURL + "/mainsetting",
       name: "MainSetting",
       component: () => import("@/views/MainSetting.vue"),
     },
     {
-      path: "/topicsetting",
+      path: baseURL + "/topicsetting",
       name: "TopicSetting",
       component: () => import("@/views/TopicSetting.vue"),
     },
     {
-      path: "/accountsetting",
+      path: baseURL + "/accountsetting",
       name: "AccountSetting",
       component: () => import("@/views/AccountSetting.vue"),
     },
     {
-      path: "/detailtopic",
+      path: baseURL + "/detailtopic",
       name: "DetailTopic",
       component: () => import("@/views/DetailTopic.vue"),
     },
