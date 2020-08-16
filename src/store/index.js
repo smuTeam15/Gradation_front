@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import router from "@/router/index";
-
+import imageToBase64 from "image-to-base64";
 
 Vue.use(Vuex);
 
@@ -57,15 +57,31 @@ export default new Vuex.Store({
         });
     },
     create_channel({ dispatch }, input) {
+      const formData = new FormData();
+      formData.append("firstPicture", input.first_picture);
+      formData.append("secondPicture", input.second_picture);
+
       const forCreate = {
-        first_title: input.first_title,
-        second_title: input.second_title,
-        first_picture: input.first_picture,
-        second_picture: input.second_picture,
-        description: input.description
-      };
+        firstSchool: input.first_school,
+        secondSchool: input.second_school,
+        formData,
+        description: input.description,
+        category: input.category
+      }
+
+      // Log ------------------------
+      console.log(forCreate);
+      for (let key of formData.entries()) {
+        console.log(key);
+      }
+      // ----------------------------
       axios
-        .post("/api/v1/channel", forCreate, config)
+        .post("/api/v1/channel", forCreate, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -89,11 +105,12 @@ export default new Vuex.Store({
     },
     update_channel({ dispatch }, input) {
       const forUpdate = {
-        first_title: input.first_title,
-        second_title: input.second_title,
-        first_picture: input.first_picture,
-        second_picture: input.second_picture,
-        description: input.description
+        firstSchool: input.first_school,
+        secondSchool: input.second_school,
+        firstPicture: input.first_picture,
+        secondPicture: input.second_picture,
+        description: input.description,
+        category: input.category
       };
       axios
         .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)

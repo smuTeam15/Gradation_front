@@ -21,15 +21,36 @@
               max-height="350"
             >
               <div class="my-1 d-flex justify-end">
-                <v-img class="ma-2" width="100" height="150" contain :src="item.first_picture"></v-img>
-                <v-img class="ma-2" width="100" height="150" contain :src="item.first_picture"></v-img>
+                <v-img
+                  class="ma-2"
+                  width="100"
+                  height="150"
+                  contain
+                  :src="item.first_picture"
+                ></v-img>
+                <v-img
+                  class="ma-2"
+                  width="100"
+                  height="150"
+                  contain
+                  :src="item.first_picture"
+                ></v-img>
               </div>
               <v-divider />
               <v-card-text>
-                <h3 v-text="`${item.first_title} &`" class="title primary--text my-2"></h3>
-                <h3 v-text="`${item.second_title}`" class="title primary--text my-2"></h3>
+                <h3
+                  v-text="`${item.first_title} &`"
+                  class="title primary--text my-2"
+                ></h3>
+                <h3
+                  v-text="`${item.second_title}`"
+                  class="title primary--text my-2"
+                ></h3>
                 <h4 v-text="`${item.description}`"></h4>
-                <h5 v-text="`${item.category}`" class="caption grey--text text--darken-2"></h5>
+                <h5
+                  v-text="`${item.category}`"
+                  class="caption grey--text text--darken-2"
+                ></h5>
               </v-card-text>
 
               <v-fade-transition>
@@ -40,7 +61,9 @@
         </v-hover>
       </v-col>
       <v-app-bar app max-height="48px" color="white" dense bottom>
-        <strong class="mx-5">Copyright © GRADATION service team. All rights reserved.</strong>
+        <strong class="mx-5"
+          >Copyright © GRADATION service team. All rights reserved.</strong
+        >
         <v-speed-dial
           v-model="fab"
           fixed
@@ -107,27 +130,42 @@
                   solo
                   append-outer-icon="mdi-ampersand"
                 ></v-text-field>
-                <v-text-field v-model="second_school" label="Solo" placeholder="2nd School" solo></v-text-field>
-                <v-text-field v-model="description" label="Solo" placeholder="Description" solo></v-text-field>
+                <v-text-field
+                  v-model="second_school"
+                  label="Solo"
+                  placeholder="2nd School"
+                  solo
+                ></v-text-field>
+                <v-text-field
+                  v-model="description"
+                  label="Solo"
+                  placeholder="Description"
+                  solo
+                ></v-text-field>
               </div>
               <div class="pb-3">
                 <v-file-input
                   v-model="first_picture"
                   label="1st School logo"
-                  accept="image/png, image/jpeg, image/bmp"
+                  accept="image/*"
                   chips
                   prepend-icon="mdi-camera"
                 ></v-file-input>
                 <v-file-input
                   v-model="second_picture"
                   label="2nd School logo"
-                  accept="image/png, image/jpeg, image/bmp"
+                  accept="image/*"
                   chips
                   prepend-icon="mdi-camera"
                 ></v-file-input>
               </div>
               <div class="pt-3">
-                <v-select v-model="category" :items="items" label="Category" solo></v-select>
+                <v-select
+                  v-model="category"
+                  :items="items"
+                  label="Category"
+                  solo
+                ></v-select>
               </div>
             </v-card-text>
             <v-divider />
@@ -137,13 +175,18 @@
               <v-btn
                 text
                 color="primary"
-                @click="create_channel({
-                  first_school,
-                  second_school,
-                  first_picture,
-                  second_picture,
-                  description})"
-              >Create</v-btn>
+                @click="
+                  create_channel({
+                    first_school,
+                    second_school,
+                    first_picture,
+                    second_picture,
+                    description,
+                    category,
+                  })
+                "
+                >Create</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
