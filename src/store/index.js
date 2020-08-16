@@ -35,7 +35,7 @@ export default new Vuex.Store({
       state.Flag.isSigned = false;
     },
     read_channel(state, payload) {
-      state.User.Channel = payload.data.Channel;
+      state.User.Channel = payload.data;
     }
   },
   actions: {
@@ -82,6 +82,7 @@ export default new Vuex.Store({
         })
         .then((res) => {
           if (res.status == 200) {
+            console.log(res.data)
             dispatch("read_channel");
           }
         })
