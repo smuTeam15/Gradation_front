@@ -24,8 +24,8 @@ export default new Vuex.Store({
   mutations: {
     loginSuccess(state, payload) {
       state.User.userName = payload.data.userName;
-      state.User.picture = payload.data.userName;
-      state.User.Channel = payload.data.Channel;
+      state.User.picture = payload.data.picture;
+      state.User.Channel = payload.data.channelList;
       state.Flag.isSigned = true;
       router.push({ name: "Home" });
     },
