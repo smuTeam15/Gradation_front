@@ -1,43 +1,33 @@
 <template>
   <v-container fluid grid-list-md>
     <v-row dense wrap justify="start" align="start">
-      <v-col
-        cols="12"
-        v-for="item in User.Channel"
-        :key="User.Channel.indexOf(item)"
-        xs="12"
-        sm="6"
-        md="4"
-        lg="3"
-        x="12"
-      >
-        <v-hover>
-          <template v-slot:default="{ hover }">
-            <v-card
-              router
-              :to="{ name: 'MainPage' }"
-              class="mx-auto"
-              max-width="300"
-              max-height="350"
-            >
-              <div class="my-1 d-flex justify-end">
-                <v-img class="ma-2" width="100" height="150" contain :src="item.firstPicture"></v-img>
-                <v-img class="ma-2" width="100" height="150" contain :src="item.secondPicture"></v-img>
-              </div>
-              <v-divider />
-              <v-card-text>
-                <h3 v-text="`${item.firstSchool} &`" class="title primary--text my-2"></h3>
-                <h3 v-text="`${item.secondSchool}`" class="title primary--text my-2"></h3>
-                <h4 v-text="`${item.description}`"></h4>
-                <h5 v-text="`${item.category}`" class="caption grey--text text--darken-2"></h5>
-              </v-card-text>
+      <v-col cols="12" xs="12" sm="6" md="4" lg="3" x="12">
+        <template v-for="item in User.Channel">
+          <v-card
+            router
+            :to="{ name: 'MainPage' }"
+            class="mx-auto"
+            max-width="300"
+            max-height="350"
+            :key="User.Channel.indexOf(item)"
+          >
+            <div class="my-1 d-flex justify-end">
+              <v-img class="ma-2" width="100" height="150" contain :src="item.firstPicture"></v-img>
+              <v-img class="ma-2" width="100" height="150" contain :src="item.secondPicture"></v-img>
+            </div>
+            <v-divider />
+            <v-card-text>
+              <h3 v-text="`${item.firstSchool} &`" class="title primary--text my-2"></h3>
+              <h3 v-text="`${item.secondSchool}`" class="title primary--text my-2"></h3>
+              <h4 v-text="`${item.description}`"></h4>
+              <h5 v-text="`${item.category}`" class="caption grey--text text--darken-2"></h5>
+            </v-card-text>
 
-              <v-fade-transition>
-                <v-overlay v-if="hover" absolute color="grey"></v-overlay>
-              </v-fade-transition>
-            </v-card>
-          </template>
-        </v-hover>
+            <v-fade-transition>
+              <v-overlay v-if="hover" absolute color="grey"></v-overlay>
+            </v-fade-transition>
+          </v-card>
+        </template>
       </v-col>
       <v-app-bar app max-height="48px" color="white" dense bottom>
         <strong class="mx-5">Copyright © GRADATION service team. All rights reserved.</strong>
@@ -162,7 +152,6 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      ...mapState(["User"]),
       fab: false,
       dialog: false,
       first_school: "",
@@ -220,6 +209,9 @@ export default {
       ],
       overlay: false,
     };
+  },
+  computed: {
+    ...mapState(["User"]),
   },
   methods: {
     ...mapActions([
