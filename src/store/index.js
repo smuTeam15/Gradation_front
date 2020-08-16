@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import router from "@/router/index";
-import imageToBase64 from "image-to-base64";
+import qs from "querystring"
 
 Vue.use(Vuex);
 
@@ -57,21 +57,19 @@ export default new Vuex.Store({
         });
     },
     create_channel({ dispatch }, input) {
-      const formData = new FormData();
-      formData.append("firstPicture", input.first_picture);
-      formData.append("secondPicture", input.second_picture);
-
-      const forCreate = {
-        firstSchool: input.first_school,
-        secondSchool: input.second_school,
-        formData,
-        description: input.description,
-        category: input.category
-      }
+      const forCreate = new FormData();
+      forCreate.append("firstSchool", input.first_school);
+      forCreate.append("secondSchool", input.second_school);
+      forCreate.append("firstPicture", input.first_picture);
+      forCreate.append("secondPicture", input.second_picture);
+      forCreate.append("description", input.description);
+      forCreate.append("category", input.category);
 
       // Log ------------------------
-      console.log(forCreate);
-      for (let key of formData.entries()) {
+      for (let key of forCreate.entries()) {
+        console.log(`${key}`);
+      }
+      for (let key of forCreate.entries()) {
         console.log(key);
       }
       // ----------------------------
@@ -93,7 +91,7 @@ export default new Vuex.Store({
     },
     read_channel({ commit }) {
       axios
-        .get("/api/v1/channel", config)
+        .get("/api/v1/channel1", config)
         .then((res) => {
           if (res.status == 200) {
             commit("read_channel", res);
