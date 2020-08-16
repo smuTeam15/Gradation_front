@@ -95,6 +95,8 @@ export default new Vuex.Store({
         .get("/api/v1/channel1", config)
         .then((res) => {
           if (res.status == 200) {
+            console.log("--------------------------")
+            console.log(res.data)
             commit("read_channel", res);
           }
         })
