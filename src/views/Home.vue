@@ -12,8 +12,20 @@
             :key="User.Channel.indexOf(item)"
           >
             <div class="my-1 d-flex justify-end">
-              <v-img class="ma-2" width="100" height="150" contain :src="item.firstPicture"></v-img>
-              <v-img class="ma-2" width="100" height="150" contain :src="item.secondPicture"></v-img>
+              <v-img
+                class="ma-2"
+                width="100"
+                height="150"
+                contain
+                :src="URL.createObjectURL(new Blob(new Uint8Array(item.firstPicture),{type: 'image/png'}))"
+              ></v-img>
+              <v-img
+                class="ma-2"
+                width="100"
+                height="150"
+                contain
+                :src="URL.createObjectURL(new Blob(new Uint8Array(item.firstPicture),{type: 'image/png'}))"
+              ></v-img>
             </div>
             <v-divider />
             <v-card-text>
@@ -135,7 +147,7 @@
                     second_picture,
                     description,
                     category,
-                  })
+                  }), cancel()
                 "
               >Create</v-btn>
             </v-card-actions>
@@ -178,7 +190,9 @@ export default {
       this.second_school = "";
       this.first_picture = null;
       this.second_picture = null;
-      dialog = false;
+      this.category = "";
+      this.description = "";
+      this.dialog = false;
     },
   },
 };
