@@ -3,8 +3,8 @@
     <v-slide-group class="mx-auto" multiple show-arrows>
       <v-slide-item
         class="ma-2"
-        v-for="n in topics"
-        :key="topics.indexOf(n)"
+        v-for="topic in Topics"
+        :key="Topics.indexOf(topic)"
         v-slot:default="{ active }"
       >
         <v-btn
@@ -13,16 +13,21 @@
           active-class="purple white--text"
           depressed
           rounded
+          :topic="topic"
           @click="$router.push({ name: 'DetailTopic' })"
-          >{{ n.topic }} <br />
-          {{ n.category }}</v-btn
         >
+          WEEK
+          <br />
+          {{ topic.category }}
+        </v-btn>
       </v-slide-item>
     </v-slide-group>
   </v-card>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -59,6 +64,9 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    ...mapState(["Topic"]),
   },
 };
 </script>

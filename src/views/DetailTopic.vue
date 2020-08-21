@@ -11,20 +11,16 @@
             </div>
             <v-divider></v-divider>
             <div class="pa-3">
-              <h2>{{ science[3].title }}</h2>
+              <h2>{{ topic.title }}</h2>
             </div>
 
             <div class="px-3 pt-1">
-              <h4 class="grey--text">
-                {{ science[3].description }}
-              </h4>
+              <h4 class="grey--text">{{ science[3].description }}</h4>
             </div>
             <div class="pa-3">
-              {{ science[3].content }}
+              {{ topic.content }}
               <div class="blue--text">
-                <a :href="science[3].url" class="blue--text" target="_blank"
-                  >...view more</a
-                >
+                <a :href="science[3].url" class="blue--text" target="_blank">...view more</a>
               </div>
             </div>
 
@@ -34,12 +30,10 @@
                 v-for="comment in articleComments"
                 :key="articleComments.indexOf(comment)"
                 class="py-0 mb-2 font-weight-bold"
-                ><span v-text="`${comment.username} `"></span
-                ><span
-                  class="font-weight-regular"
-                  v-text="`${comment.comment}`"
-                ></span
-              ></v-card-text>
+              >
+                <span v-text="`${comment.username} `"></span>
+                <span class="font-weight-regular" v-text="`${comment.comment}`"></span>
+              </v-card-text>
               <v-divider></v-divider>
               <v-textarea
                 class="mb-1 py-2"
@@ -77,6 +71,7 @@
 import articles from "@/data/articles.js";
 import science from "@/data/science.js";
 import articleComments from "@/data/articleComments.js";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
@@ -88,6 +83,9 @@ export default {
       userImage: "",
       comment: "",
     };
+  },
+  props: {
+    topic: Object,
   },
   methods: {
     leaveComment({ username, userImage, comment }) {

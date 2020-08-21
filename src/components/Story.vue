@@ -2,71 +2,73 @@
   <v-card max-width="600" class="mx-auto my-3" tile outlined>
     <v-slide-group class="mx-auto" multiple show-arrows>
       <v-slide-item class="ma-3" v-for="item in DailyMission" :key="DailyMission.indexOf(item)">
-        <div class="btn-wrapper">
-          <v-btn class="button" fab icon>
-            <v-avatar class="avatar" @click.stop="aDialog = true">
-              <v-img width="48px" height="48px" :src="item.picture" />
-            </v-avatar>
-          </v-btn>
-          <v-dialog v-model="aDialog" max-width="290">
-            <v-card>
-              <v-card-title class="headline">Daily Mission is Here!</v-card-title>
+        <template v-slot:activator="{ on, attrs }">
+          <div class="btn-wrapper">
+            <v-btn class="button" fab icon v-on="on" :attrs="attrs">
+              <v-avatar class="avatar" @click="aDialog = !aDialog">
+                <v-img width="48px" height="48px" :src="item.picture" />
+              </v-avatar>
+            </v-btn>
+          </div>
+        </template>
+        <v-dialog persistent v-model="aDialog" max-width="290">
+          <v-card>
+            <v-card-title class="headline">Daily Mission is Here!</v-card-title>
 
-              <v-card-text>{{ item.content }}</v-card-text>
+            <v-card-text>{{ item.content }}</v-card-text>
 
-              <v-card-actions>
-                <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+            <v-card-actions>
+              <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
 
-                <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
 
-                <v-btn
-                  color="green darken-1"
-                  text
-                  @click="
-                    aDialog = false;
-                    pDialog = true;
+              <v-btn
+                color="green darken-1"
+                text
+                @click="
+                    cancel()
                   "
-                >Post</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialog" max-width="500px">
-            <v-card>
-              <v-card-title>
-                <strong>포스트 작성</strong>
-              </v-card-title>
-              <v-divider />
-              <v-card-text>
-                <div class="pa-3" outlined>
-                  <v-file-input
-                    v-model="picture"
-                    chips
-                    accept="image/*"
-                    placeholder="Pick an image"
-                    prepend-icon="mdi-camera"
-                    counter
-                    show-size
-                  ></v-file-input>
-                </div>
-                <div class="pa-3">
-                  <v-textarea v-model="content" outlined name="input-7-4" placeholder="내용 입력..."></v-textarea>
-                </div>
-              </v-card-text>
-              <v-divider />
-              <v-card-actions>
-                <v-btn text color="grey darken-1" @click="close()">Cancel</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="
+              >Post</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="pDialog" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <strong>포스트 작성</strong>
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <div class="pa-3" outlined>
+                <v-file-input
+                  v-model="picture"
+                  chips
+                  accept="image/*"
+                  placeholder="Pick an image"
+                  prepend-icon="mdi-camera"
+                  counter
+                  show-size
+                ></v-file-input>
+              </div>
+              <div class="pa-3">
+                <v-textarea v-model="content" outlined name="input-7-4" placeholder="내용 입력..."></v-textarea>
+              </div>
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-btn text color="grey darken-1" @click="close()">Cancel</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="
                     create_post({picture, content}), close()
                   "
-                >Post</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </div>
+              >Post</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-slide-item>
     </v-slide-group>
   </v-card>
@@ -102,7 +104,7 @@ export default {
   },
   methods: {
     ...mapActions(["create_post"]),
-    close() {
+    cancel() {
       this.aDialog = false;
       this.pDialog = false;
     },

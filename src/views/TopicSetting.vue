@@ -85,7 +85,7 @@
               </div>
               <div align="right" class="pr-7 pt-1">
                 <v-btn
-                  @click="create_post({ title, content, category })"
+                  @click="create_topic({ title, content, category })"
                   depressed
                   small
                   color="blue"

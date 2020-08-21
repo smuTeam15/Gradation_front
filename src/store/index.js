@@ -20,6 +20,7 @@ export default new Vuex.Store({
     },
     Posts: [],
     DailyMission: [],
+    Topics: [],
     Flag: {
       isSigned: false
     }
