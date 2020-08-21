@@ -19,7 +19,7 @@
 
               <div class="pa-5" align="end">
                 <v-btn
-                  @click="post_dailyMission({content})"
+                  @click="post_dailyMission(content)"
                   color="primary"
                   class="white--text"
                 >Update</v-btn>

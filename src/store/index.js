@@ -257,7 +257,7 @@ export default new Vuex.Store({
 
       const forCreate = new FormData();
       forCreate.append("channelId", state.User.currentChannel);
-      forCreate.append("content", input.content);
+      forCreate.append("content", input);
       // Log ------------------------
       // console.log(input.first_picture);
       // console.log(input.second_picture);
