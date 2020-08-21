@@ -217,14 +217,11 @@ export default new Vuex.Store({
         });
     },
     update_post({ dispatch }, input) {
-      const forUpdate = {
-        firstSchool: input.first_school,
-        secondSchool: input.second_school,
-        firstPicture: input.first_picture,
-        secondPicture: input.second_picture,
-        description: input.description,
-        category: input.category
-      };
+      const forUpdate = new FormData();
+      forUpdate.append("channelId", state.User.currentChannel);
+      forUpdate.append("picture", input.picture);
+      forUpdate.append("content", input.content);
+
       axios
         .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)
         .then((res) => {
@@ -257,7 +254,9 @@ export default new Vuex.Store({
 
       const forCreate = new FormData();
       forCreate.append("channelId", state.User.currentChannel);
-      forCreate.append("content", input);
+      forCreate.append("picture", input.picture);
+      forCreate.append("content", input.content);
+
       // Log ------------------------
       // console.log(input.first_picture);
       // console.log(input.second_picture);
@@ -268,6 +267,7 @@ export default new Vuex.Store({
       //   console.log(key);
       // }
       // ----------------------------
+
       axios
         .post("/api/v1/dailymission", forCreate, {
           headers: {
@@ -306,14 +306,10 @@ export default new Vuex.Store({
         });
     },
     update_dailyMission({ dispatch }, input) {
-      const forUpdate = {
-        firstSchool: input.first_school,
-        secondSchool: input.second_school,
-        firstPicture: input.first_picture,
-        secondPicture: input.second_picture,
-        description: input.description,
-        category: input.category
-      };
+      const forUpdate = new FormData();
+      forUpdate.append("channelId", state.User.currentChannel);
+      forUpdate.append("picture", input.picture);
+      forUpdate.append("content", input.content);
       axios
         .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)
         .then((res) => {
@@ -328,6 +324,97 @@ export default new Vuex.Store({
     delete_dailyMission({ dispatch }) {
       axios
         .delete(`"/api/v1/channel/${channel_id}"`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // ---------------------------------------
+    // WEEKLY TOPIC CRUD ---------------------
+    create_topic({ state, dispatch }, input) {
+
+      // console.log(input.first_picture);
+      // console.log(input.second_picture);
+
+      const forCreate = {
+        channelId: state.User.currentChannel,
+        content: input.content,
+        title: input.title,
+        category: input.category
+      }
+
+      // Log ------------------------
+      // console.log(input.first_picture);
+      // console.log(input.second_picture);
+      // for (let key of forCreate.entries()) {
+      //   console.log(`${key}`);
+      // }
+      // for (let key of forCreate.entries()) {
+      //   console.log(key);
+      // }
+      // ----------------------------
+      axios
+        .post("/api/v1/weeklytopic", forCreate, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res.data)
+            dispatch("read_dailyMission");
+          }
+          else if (res.status == 204) {
+
+          }
+          else if (res.status == 403) {
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    read_topic({ state, commit }) {
+      axios
+        .get(`/api/v1/dailymission/${channel_id}` + state.User.currentChannel, config)
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log("--------------------------")
+            // console.log(res.data)
+            commit("read_topic", res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    update_topic({ dispatch }, input) {
+      const forUpdate = {
+        channelId: state.User.currentChannel,
+        content: input.content,
+        title: input.title,
+        category: input.category
+      };
+      axios
+        .put(`/api/v1/dailymission/${channel_id}`, forUpdate, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    delete_topic({ dispatch }) {
+      axios
+        .delete(`/api/v1/dailymission/${channel_id}/${weeklyTopic_id}`, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");

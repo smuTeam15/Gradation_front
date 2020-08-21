@@ -14,12 +14,23 @@
               </div>
 
               <div class="px-5">
-                <v-text-field v-model="content" label="Input Daily Missoin" hide-details="auto"></v-text-field>
+                <v-file-input
+                  v-model="picture"
+                  chips
+                  accept="image/*"
+                  placeholder="Pick an image"
+                  prepend-icon="mdi-camera"
+                ></v-file-input>
+                <v-text-field
+                  v-model="content"
+                  placeholder="Input Daily Missoin"
+                  hide-details="auto"
+                ></v-text-field>
               </div>
 
               <div class="pa-5" align="end">
                 <v-btn
-                  @click="post_dailyMission(content)"
+                  @click="create_dailyMission({ picture, content })"
                   color="primary"
                   class="white--text"
                 >Update</v-btn>
@@ -34,12 +45,16 @@
               <!-- STORY 영역 -->
               <v-card max-width="830" class="mx-auto my-3" tile outlined>
                 <v-slide-group class="mx-auto" multiple show-arrows>
-                  <v-slide-item class="ma-3" v-for="user in allUsers" :key="allUsers.indexOf(user)">
+                  <v-slide-item
+                    class="ma-3"
+                    v-for="item in DailyMission"
+                    :key="DailyMission.indexOf(item)"
+                  >
                     <v-hover v-slot:default="{ hover }">
                       <div class="btn-wrapper">
-                        <v-btn class="button" fab icon>
-                          <v-avatar class="avatar" size="48" @click="link">
-                            <v-img :src="user.src"></v-img>
+                        <v-btn @click="close()" class="button" fab icon>
+                          <v-avatar class="avatar" size="48" @click="close()">
+                            <v-img :src="item.picture"></v-img>
                             <v-expand-transition>
                               <div
                                 v-if="hover"
@@ -88,7 +103,7 @@ export default {
     //allUsers: Array,
   },
   computed: {
-    ...mapState([]),
+    ...mapState(["DailyMission"]),
   },
   methods: {
     ...mapActions([
@@ -97,9 +112,11 @@ export default {
       "update_dailyMission",
       "delete_dailyMission",
     ]),
+    close() {},
   },
   data() {
     return {
+      picture: null,
       content: "",
       overlay: false,
       allUsers,

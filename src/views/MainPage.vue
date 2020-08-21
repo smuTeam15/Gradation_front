@@ -174,8 +174,8 @@ export default {
   methods: {
     ...mapActions(["create_post", "read_post", "update_post", "delete_post"]),
     cancel() {
-      picture = null;
-      content = "";
+      this.picture = null;
+      this.content = "";
       this.dialog = false;
     },
   },
