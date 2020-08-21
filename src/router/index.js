@@ -40,8 +40,8 @@ export default new VueRouter({
       component: () => import("@/views/MainPage.vue"),
     },
     {
-      path: baseURL + "/storysetting",
       name: "StorySetting",
+      path: baseURL + "/storysetting",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -49,19 +49,19 @@ export default new VueRouter({
         import(/* webpackChunkName: "setting" */ "@/views/StorySetting.vue"),
     },
     {
-      path: baseURL + "/mainsetting",
       name: "MainSetting",
+      path: baseURL + "/mainsetting",
       component: () => import("@/views/MainSetting.vue"),
     },
     {
-      path: baseURL + "/topicsetting",
       name: "TopicSetting",
+      path: baseURL + "/topicsetting",
       component: () => import("@/views/TopicSetting.vue"),
     },
     {
-      path: baseURL + "/accountsetting",
-      name: "AccountSetting",
-      component: () => import("@/views/AccountSetting.vue"),
+      name: "ChannelSetting",
+      path: baseURL + "/channelsetting",
+      component: () => import("@/views/ChannelSetting.vue"),
     },
     {
       path: baseURL + "/detailtopic",

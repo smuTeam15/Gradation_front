@@ -8,18 +8,16 @@
         min-height="32px"
         min-width="32px"
       >
-        <v-img :src="feed.userImage" height="32px" width="32px" />
+        <v-icon v-if="post.user.picture == null">mdi-account-circle</v-icon>
+        <v-img v-else :src="post.user.picture" height="32px" width="32px" />
       </v-list-item-avatar>
       <v-list-item-content class="pa-0">
-        <v-list-item-title
-          v-text="`${feed.username}`"
-          class="subtitle-2"
-        ></v-list-item-title>
+        <v-list-item-title v-text="`${post.user.name}`" class="subtitle-2"></v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-divider />
-    <v-img :src="feed.postImage" height="auto"></v-img>
-    <v-card-text v-text="`${feed.caption}`" class="pb-1"></v-card-text>
+    <v-img :src="post.picture" height="auto"></v-img>
+    <v-card-text v-text="`${post.content}`" class="pb-1"></v-card-text>
 
     <v-card-actions class="py-0 mt-1">
       <v-btn icon @click="like">
@@ -30,18 +28,15 @@
         <v-icon>mdi-share-variant</v-icon>
       </v-btn>
     </v-card-actions>
-    <v-card-text
-      v-text="`좋아요 ${feed.likes}개`"
-      class="py-0 mb-2 font-weight-bold"
-    ></v-card-text>
+    <v-card-text v-text="`좋아요 ${post.likes.length}개`" class="py-0 mb-2 font-weight-bold"></v-card-text>
     <v-card-text
       v-for="comment in feed.comments"
       :key="feed.comments.indexOf(comment)"
       class="py-0 mb-2 font-weight-bold"
     >
-      <span v-text="`${comment.username} `"></span
-      ><span class="font-weight-regular" v-text="`${comment.comment}`"></span
-    ></v-card-text>
+      <span v-text="`${comment.username} `"></span>
+      <span class="font-weight-regular" v-text="`${comment.comment}`"></span>
+    </v-card-text>
     <v-card-text class="py-0 mb-1 overline">방금 전</v-card-text>
     <div class="mt-1">
       <v-divider class="mb-1"></v-divider>
@@ -74,6 +69,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -84,7 +81,7 @@ export default {
     };
   },
   props: {
-    feed: Object,
+    post: Object,
   },
   methods: {
     leaveComment({ username, userImage, comment }) {

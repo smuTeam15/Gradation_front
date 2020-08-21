@@ -1,12 +1,12 @@
 <template>
-  <v-container fill-height>
+  <v-container>
     <v-col cols="12">
       <div class="page-body">
-        <!-- STORY 영역 -->
+        <!-- DAILY MISSION 영역 -->
         <div class="story pb-1">
-          <Story></Story>
+          <Story />
         </div>
-        <!-- STORY 영역 끝 -->
+        <!-- DAILY MISSION 영역 끝 -->
 
         <!-- TOPIC 영역 -->
         <div class="topic pb-1">
@@ -16,13 +16,11 @@
 
         <!-- FEED 영역 -->
         <div class="feed my-3">
-          <Feed v-for="feed in feeds" :key="feeds.indexOf(feed)" :feed="feed" />
+          <Feed v-for="post in Posts" :key="Posts.indexOf(post)" :post="post" />
         </div>
         <!-- FEED 영역 끝 -->
         <v-app-bar app max-height="48px" color="white" dense bottom>
-          <strong class="mx-5"
-            >Copyright © GRADATION service team. All rights reserved.</strong
-          >
+          <strong class="mx-5">Copyright © GRADATION service team. All rights reserved.</strong>
           <v-speed-dial
             v-model="fab"
             fixed
@@ -53,33 +51,40 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </template>
-              <span>Create Feed</span>
+              <span>Create Post</span>
             </v-tooltip>
 
-            <v-btn
-              @click="$router.push({ name: 'MainSetting' })"
-              fab
-              dark
-              small
-              color="indigo"
-            >
-              <v-icon>mdi-settings</v-icon>
-            </v-btn>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="$router.push({ name: 'MainSetting' })"
+                  fab
+                  dark
+                  small
+                  color="indigo"
+                  v-on="on"
+                  :attrs="attrs"
+                >
+                  <v-icon>mdi-settings</v-icon>
+                </v-btn>
+              </template>
+              <span>Setting</span>
+            </v-tooltip>
           </v-speed-dial>
 
-          <!-- Feed 작성용 dialog -->
+          <!-- Post 작성용 dialog -->
           <v-dialog v-model="dialog" max-width="500px">
             <v-card>
               <v-card-title>
-                <strong>피드 작성</strong>
+                <strong>포스트 작성</strong>
               </v-card-title>
               <v-divider />
               <v-card-text>
                 <div class="pa-3" outlined>
                   <v-file-input
-                    v-model="chosenFile"
+                    v-model="picture"
                     chips
-                    accept="image/png, image/jpeg, image/bmp"
+                    accept="image/*"
                     placeholder="Pick an image"
                     prepend-icon="mdi-camera"
                     counter
@@ -87,37 +92,23 @@
                   ></v-file-input>
                 </div>
                 <div class="pa-3">
-                  <v-textarea
-                    v-model="caption"
-                    outlined
-                    name="input-7-4"
-                    placeholder="내용 입력..."
-                  ></v-textarea>
+                  <v-textarea v-model="content" outlined name="input-7-4" placeholder="내용 입력..."></v-textarea>
                 </div>
               </v-card-text>
               <v-divider />
               <v-card-actions>
-                <v-btn text color="grey darken-1" @click="dialog = false"
-                  >Cancel</v-btn
-                >
+                <v-btn text color="grey darken-1" @click="cancel()">Cancel</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                   text
                   color="primary"
                   @click="
-                    posting({
-                      username,
-                      userImage,
-                      chosenFile,
-                      likes,
-                      hasBeenLiked,
-                      caption,
-                      comments,
-                      filter,
-                    })
+                    create_post({
+                      picture,
+                      content
+                    }), cancel()
                   "
-                  >Post</v-btn
-                >
+                >Post</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -133,6 +124,7 @@ import Story from "@/components/Story.vue";
 import Topic from "@/components/Topic.vue";
 import feeds from "@/data/feeds.js";
 import axios from "axios";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
@@ -142,6 +134,8 @@ export default {
   },
   data() {
     return {
+      picture: null,
+      content: "",
       username: "wosteelz",
       userImage:
         "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/me_3.jpg",
@@ -174,37 +168,15 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState(["Posts"]),
+  },
   methods: {
-    posting({
-      username,
-      userImage,
-      chosenFile,
-      likes,
-      hasBeenLiked,
-      caption,
-      comments,
-      filter,
-    }) {
+    ...mapActions(["create_post", "read_post", "update_post", "delete_post"]),
+    cancel() {
+      picture = null;
+      content = "";
       this.dialog = false;
-      var reader = new FileReader();
-      var postImage =
-        "https://res.heraldm.com/phpwas/restmb_idxmake.php?idx=507&simg=/content/image/2019/09/27/20190927000594_0.jpg";
-      reader.readAsArrayBuffer(this.chosenFile);
-      reader.onload = () => {
-        // postImage = reader.result;
-      };
-      feeds.unshift({
-        username,
-        userImage,
-        postImage,
-        likes,
-        hasBeenLiked,
-        caption,
-        comments,
-        filter,
-      });
-      this.chosenFile = null;
-      this.caption = null;
     },
   },
 };

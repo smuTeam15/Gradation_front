@@ -4,28 +4,15 @@
       <v-col cols="12" xs="12" sm="6" md="4" lg="3" x="12">
         <template v-for="item in User.Channel">
           <v-card
-            router
-            :to="{ name: 'MainPage' }"
+            :key="User.Channel.indexOf(item)"
+            @click="enterChannel(item.id)"
             class="mx-auto"
             max-width="300"
             max-height="350"
-            :key="User.Channel.indexOf(item)"
           >
             <div class="my-1 d-flex justify-end">
-              <v-img
-                class="ma-2"
-                width="100"
-                height="150"
-                contain
-                :src="URL.createObjectURL(new Blob(new Uint8Array(item.firstPicture),{type: 'image/png'}))"
-              ></v-img>
-              <v-img
-                class="ma-2"
-                width="100"
-                height="150"
-                contain
-                :src="URL.createObjectURL(new Blob(new Uint8Array(item.firstPicture),{type: 'image/png'}))"
-              ></v-img>
+              <v-img class="ma-2" width="100" height="150" contain :src="item.firstPicture"></v-img>
+              <v-img class="ma-2" width="100" height="150" contain :src="item.secondPicture"></v-img>
             </div>
             <v-divider />
             <v-card-text>
@@ -89,12 +76,12 @@
                 <v-icon>mdi-delete-forever</v-icon>
               </v-btn>
             </template>
-            <span>Delete Channel</span>
+            <span>Exit Channel</span>
           </v-tooltip>
         </v-speed-dial>
 
-        <!-- Feed 작성용 dialog -->
-        <v-dialog v-model="dialog" max-width="500px">
+        <!-- Channel 생성용 dialog -->
+        <v-dialog v-model="dialog" persistent max-width="500px">
           <v-card>
             <v-card-title>
               <strong>채널 생성</strong>
@@ -160,6 +147,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import router from "@/router/index";
 
 export default {
   data() {
@@ -184,7 +172,14 @@ export default {
       "read_channel",
       "update_channel",
       "delete_channel",
+      "read_post",
     ]),
+    enterChannel(channelId) {
+      console.log(channelId);
+      this.$store.state.User.currentChannel = channelId;
+      this.read_post();
+      router.push({ name: "MainPage" });
+    },
     cancel() {
       this.first_school = "";
       this.second_school = "";
