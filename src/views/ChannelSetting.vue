@@ -74,7 +74,7 @@
                 ></v-file-input>
               </div>
               <div class="pt-3">
-                <v-select v-model="category" :items="items" label="Category" solo></v-select>
+                <v-select v-model="category" :items="categories" label="Category" solo></v-select>
               </div>
             </v-card-text>
             <v-divider />
@@ -134,7 +134,7 @@
 
 <script>
 import axios from "axios";
-import category from "@/data/category.js";
+import categories from "@/data/categories.js";
 import science from "@/data/science.js";
 import { mapState, mapActions } from "vuex";
 
@@ -149,7 +149,7 @@ export default {
     second_picture: null,
     description: "",
     category: "",
-    items: ["General", "Sports", "Culture", "Business", "Entertainment"],
+    categories,
   }),
   computed: {
     ...mapState(["User"]),

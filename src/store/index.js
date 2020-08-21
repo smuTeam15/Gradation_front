@@ -342,8 +342,8 @@ export default new Vuex.Store({
 
       const forCreate = {
         channelId: state.User.currentChannel,
-        content: input.content,
         title: input.title,
+        content: input.content,
         category: input.category
       }
 
@@ -358,12 +358,7 @@ export default new Vuex.Store({
       // }
       // ----------------------------
       axios
-        .post("/api/v1/weeklytopic", forCreate, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Access-Control-Allow-Origin': '*'
-          }
-        })
+        .post("/api/v1/weeklytopic", forCreate, config)
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)

@@ -43,8 +43,8 @@
               <div class="pt-4 px-2">
                 <v-chip-group mandatory active-class="blue--text">
                   <v-chip
-                    v-for="cate in category"
-                    :key="category.indexOf(cate)"
+                    v-for="cate in categories"
+                    :key="categories.indexOf(cate)"
                     @click="asd = true"
                   >{{ cate }}</v-chip>
                 </v-chip-group>
@@ -64,6 +64,34 @@
                   </v-list-item-group>
                 </v-list>
               </v-card>
+
+              <v-divider class="mt-5"></v-divider>
+
+              <div class="pt-5 px-5 d-flex justify-space-between align-center">
+                <h2 class="mt-2" align="left">Create Topics</h2>
+              </div>
+              <div class="pt-4 px-2">
+                <v-text-field v-model="title" placeholder="제목..." hide-details="auto"></v-text-field>
+              </div>
+
+              <div class="pt-4 px-2">
+                <v-textarea v-model="content" outlined name="input-7-4" placeholder="내용..."></v-textarea>
+              </div>
+
+              <div class="pt-4 px-2">
+                <v-chip-group v-model="category" mandatory active-class="blue--text">
+                  <v-chip v-for="item in categories" :key="categories.indexOf(item)">{{ item }}</v-chip>
+                </v-chip-group>
+              </div>
+              <div align="right" class="pr-7 pt-1">
+                <v-btn
+                  @click="create_post({ title, content, category })"
+                  depressed
+                  small
+                  color="blue"
+                  class="my-2 white--text"
+                >Create</v-btn>
+              </div>
 
               <v-divider class="mt-5"></v-divider>
 
@@ -88,15 +116,19 @@
 
 <script>
 import axios from "axios";
-import category from "@/data/category.js";
+import categories from "@/data/categories.js";
 import science from "@/data/science.js";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data: () => ({
     DataString: null,
     selectionType: "leaf",
     selection: [],
-    category,
+    title: "",
+    content: "",
+    category: null,
+    categories,
     science,
     asd: false,
     items: [
@@ -121,17 +153,12 @@ export default {
     ],
   }),
   methods: {
-    getData() {
-      axios
-        .get("http://169.63.212.7:8000/api/public")
-        .then((res) => {
-          this.DataString = res.data;
-          console.log(this.DataString);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    ...mapActions([
+      "create_topic",
+      "read_topic",
+      "update_topic",
+      "delete_topic",
+    ]),
   },
 };
 </script>

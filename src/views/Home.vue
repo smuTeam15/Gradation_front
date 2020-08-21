@@ -116,7 +116,7 @@
                 ></v-file-input>
               </div>
               <div class="pt-3">
-                <v-select v-model="category" :items="items" label="Category" solo></v-select>
+                <v-select v-model="category" :items="categories" label="Category" solo></v-select>
               </div>
             </v-card-text>
             <v-divider />
@@ -148,6 +148,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import router from "@/router/index";
+import categories from "@/data/categories.js";
 
 export default {
   data() {
@@ -159,8 +160,8 @@ export default {
       first_picture: null,
       second_picture: null,
       description: "",
+      categories,
       category: "",
-      items: ["General", "Sports", "Culture", "Business", "Entertainment"],
     };
   },
   computed: {
