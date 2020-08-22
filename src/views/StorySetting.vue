@@ -46,7 +46,7 @@
               <v-card max-width="830" class="mx-auto my-3" tile outlined>
                 <v-slide-group class="mx-auto" multiple show-arrows>
                   <v-slide-item
-                    class="ma-3"
+                    class="ma-3 pa-1"
                     v-for="item in DailyMission"
                     :key="DailyMission.indexOf(item)"
                   >

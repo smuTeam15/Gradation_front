@@ -50,7 +50,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loading({ commit }) {
+    loading({ commit, dispatch }) {
       axios
         .get("/v1/login", config)
         .then((res) => {
@@ -137,7 +137,7 @@ export default new Vuex.Store({
         category: input.category
       };
       axios
-        .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)
+        .put(`/api/v1/channel/${channel_id}`, forUpdate, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -149,7 +149,7 @@ export default new Vuex.Store({
     },
     delete_channel({ dispatch }) {
       axios
-        .delete(`"/api/v1/channel/${channel_id}"`, config)
+        .delete(`/api/v1/channel/${channel_id}`, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -205,7 +205,7 @@ export default new Vuex.Store({
     },
     read_post({ state, commit }) {
       axios
-        .get("/api/v1/post/" + state.User.currentChannel, config)
+        .get(`/api/v1/post/${state.User.currentChannel}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")
@@ -224,7 +224,7 @@ export default new Vuex.Store({
       forUpdate.append("content", input.content);
 
       axios
-        .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)
+        .put(`/api/v1/post/${channel_id}`, forUpdate, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -236,7 +236,7 @@ export default new Vuex.Store({
     },
     delete_post({ dispatch }) {
       axios
-        .delete(`"/api/v1/channel/${channel_id}"`, config)
+        .delete(`/api/v1/post/${channel_id}`, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -294,7 +294,7 @@ export default new Vuex.Store({
     },
     read_dailyMission({ state, commit }) {
       axios
-        .get("/api/v1/dailymission/" + state.User.currentChannel, config)
+        .get(`/api/v1/dailymission/${state.User.currentChannel}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")
@@ -312,7 +312,7 @@ export default new Vuex.Store({
       forUpdate.append("picture", input.picture);
       forUpdate.append("content", input.content);
       axios
-        .put(`"/api/v1/channel/${channel_id}"`, forUpdate, config)
+        .put(`/api/v1/dailymission/${state.User.currentChannel}`, forUpdate, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -324,7 +324,7 @@ export default new Vuex.Store({
     },
     delete_dailyMission({ dispatch }) {
       axios
-        .delete(`"/api/v1/channel/${channel_id}"`, config)
+        .delete(`/api/v1/dailymission/${state.User.currentChannel}`, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -378,7 +378,7 @@ export default new Vuex.Store({
     },
     read_topic({ state, commit }) {
       axios
-        .get(`/api/v1/dailymission/${channel_id}` + state.User.currentChannel, config)
+        .get(`/api/v1/dailymission/${state.User.currentChannel}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")

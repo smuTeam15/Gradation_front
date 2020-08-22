@@ -8,11 +8,11 @@
         min-height="32px"
         min-width="32px"
       >
-        <v-icon v-if="post.user.picture == null">mdi-account-circle</v-icon>
-        <v-img v-else :src="post.user.picture" height="32px" width="32px" />
+        <v-icon v-if="post.userPicture == null">mdi-account-circle</v-icon>
+        <v-img v-else :src="post.userPicture" height="32px" width="32px" />
       </v-list-item-avatar>
       <v-list-item-content class="pa-0">
-        <v-list-item-title v-text="`${post.user.name}`" class="subtitle-2"></v-list-item-title>
+        <v-list-item-title v-text="`${post.userName}`" class="subtitle-2"></v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <v-divider />

@@ -2,14 +2,12 @@
   <v-container fill-height>
     <v-row align="center" justify="center">
       <v-card class="d-inline-block" width="400">
-        <v-card-title primary-title class="d-flex justify-center">
-          소셜 미디어 계정으로 로그인
-        </v-card-title>
+        <v-card-title primary-title class="d-flex justify-center">소셜 미디어 계정으로 로그인</v-card-title>
         <v-divider />
         <v-container>
           <v-row justify="center" align="center">
             <div class="my-3">
-              <!-- 네이버아이디로로그인 버튼 노출 영역 -->
+              <!-- 네이버아이디로로그인 버튼 노출 영역
               <NaverLoginForm />
               Testing
               <v-card
@@ -35,7 +33,7 @@
                   :src="require('@/assets/naver.png')"
                 />
               </v-card>
-              Anchor Tag
+              Anchor Tag-->
               <v-card width="244" height="55" @click="nlogin()" flat>
                 <v-img
                   eager
@@ -46,7 +44,7 @@
               </v-card>
             </div>
             <div class="mb-3">
-              REST(AJAX)
+              <!-- REST(AJAX)
               <v-card width="250" height="60" @click="google()" flat>
                 <v-img
                   eager
@@ -55,7 +53,7 @@
                   :src="require('@/assets/google.png')"
                 />
               </v-card>
-              Anchor Tag
+              Anchor Tag-->
               <v-card width="250" height="60" @click="glogin()" flat>
                 <v-img
                   eager
@@ -69,9 +67,7 @@
         </v-container>
       </v-card>
       <v-app-bar app max-height="48px" color="white" dense bottom>
-        <strong class="mx-5"
-          >Copyright © GRADATION service team. All rights reserved.</strong
-        >
+        <strong class="mx-5">Copyright © GRADATION service team. All rights reserved.</strong>
       </v-app-bar>
     </v-row>
   </v-container>

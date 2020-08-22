@@ -136,12 +136,6 @@ export default {
     return {
       picture: null,
       content: "",
-      username: "wosteelz",
-      userImage:
-        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1211695/me_3.jpg",
-      chosenFile: null,
-      likes: 0,
-      hasBeenLiked: false,
       caption: "",
       comments: [],
       filter: "",
@@ -169,7 +163,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["Posts"]),
+    ...mapState(["Posts", "DailyMission"]),
   },
   methods: {
     ...mapActions(["create_post", "read_post", "update_post", "delete_post"]),

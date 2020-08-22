@@ -174,11 +174,15 @@ export default {
       "update_channel",
       "delete_channel",
       "read_post",
+      "read_dailyMission",
+      "read_topic",
     ]),
     enterChannel(channelId) {
       console.log(channelId);
       this.$store.state.User.currentChannel = channelId;
       this.read_post();
+      this.read_dailyMission();
+      this.read_topic();
       router.push({ name: "MainPage" });
     },
     cancel() {
