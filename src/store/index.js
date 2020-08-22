@@ -47,6 +47,9 @@ export default new Vuex.Store({
     },
     read_dailyMission(state, payload) {
       state.DailyMission = payload.data;
+    },
+    read_like(state, payload) {
+      state.Posts;
     }
   },
   actions: {
@@ -411,6 +414,121 @@ export default new Vuex.Store({
     delete_topic({ dispatch }) {
       axios
         .delete(`/api/v1/dailymission/${channel_id}/${weeklyTopic_id}`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // ---------------------------------------
+    // Post Likes CRUD ---------------------
+    create_like({ state, dispatch }, input) {
+      axios
+        .post(`/api/v1/post/likes/${postId}`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res.data)
+            dispatch("read_like");
+          }
+          else if (res.status == 204) {
+
+          }
+          else if (res.status == 403) {
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    read_like({ state, commit }) {
+      axios
+        .get(`/api/v1/post/likes/${postId}`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log("--------------------------")
+            // console.log(res.data)
+            commit("read_like", res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    delete_like({ dispatch }) {
+      axios
+        .delete(`/api/v1/post/likes/${likesId}`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // ---------------------------------------
+    // Post Comment CRUD ---------------------
+    create_comment({ state, dispatch }, input) {
+
+      // console.log(input.first_picture);
+      // console.log(input.second_picture);
+
+      const forCreate = {
+        channelId: state.User.currentChannel,
+        title: input.title,
+        content: input.content,
+        category: input.category
+      }
+
+      // Log ------------------------
+      // console.log(input.first_picture);
+      // console.log(input.second_picture);
+      // for (let key of forCreate.entries()) {
+      //   console.log(`${key}`);
+      // }
+      // for (let key of forCreate.entries()) {
+      //   console.log(key);
+      // }
+      // ----------------------------
+      axios
+        .post(`/api/v1/post/comment/${postId}`, forCreate, config)
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res.data)
+            dispatch("read_like");
+          }
+          else if (res.status == 204) {
+
+          }
+          else if (res.status == 403) {
+
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    read_comment({ state, commit }) {
+      axios
+        .get(`/api/v1/post/comment/${postId}`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            // console.log("--------------------------")
+            // console.log(res.data)
+            commit("read_like", res);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    delete_comment({ dispatch }) {
+      axios
+        .delete(`/api/v1/post/comment/${postId}/${postCommentId}`, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");

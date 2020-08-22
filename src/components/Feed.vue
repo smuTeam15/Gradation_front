@@ -20,22 +20,22 @@
     <v-card-text v-text="`${post.content}`" class="pb-1"></v-card-text>
 
     <v-card-actions class="py-0 mt-1">
-      <v-btn icon @click="like">
-        <v-icon v-if="feed.hasBeenLiked" color="red">mdi-heart</v-icon>
+      <v-btn icon @click="create_like()">
+        <v-icon v-if="post.likesId.includes(post.id)" color="red">mdi-heart</v-icon>
         <v-icon v-else>mdi-heart-outline</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click="delete_like()">
         <v-icon>mdi-share-variant</v-icon>
       </v-btn>
     </v-card-actions>
-    <v-card-text v-text="`좋아요 ${post.likes.length}개`" class="py-0 mb-2 font-weight-bold"></v-card-text>
+    <v-card-text v-text="`좋아요 ${post.likesId.length}개`" class="py-0 mb-2 font-weight-bold"></v-card-text>
     <v-card-text
-      v-for="comment in feed.comments"
-      :key="feed.comments.indexOf(comment)"
+      v-for="item in post.comments"
+      :key="post.comments.indexOf(item)"
       class="py-0 mb-2 font-weight-bold"
     >
-      <span v-text="`${comment.username} `"></span>
-      <span class="font-weight-regular" v-text="`${comment.comment}`"></span>
+      <span v-text="`${item.userName} `"></span>
+      <span class="font-weight-regular" v-text="`${item.comment}`"></span>
     </v-card-text>
     <v-card-text class="py-0 mb-1 overline">방금 전</v-card-text>
     <div class="mt-1">
@@ -53,13 +53,7 @@
         v-model="comment"
       >
         <template #append>
-          <v-btn
-            icon
-            depressed
-            small
-            class="pb-1"
-            @click="leaveComment({ username, userImage, comment })"
-          >
+          <v-btn icon depressed small class="pb-1" @click="create_comment(comment)">
             <v-icon>mdi-send</v-icon>
           </v-btn>
         </template>
@@ -84,14 +78,7 @@ export default {
     post: Object,
   },
   methods: {
-    leaveComment({ username, userImage, comment }) {
-      this.feed.comments.push({ username, userImage, comment });
-      this.comment = "";
-    },
-    like() {
-      this.feed.hasBeenLiked ? this.feed.likes-- : this.feed.likes++;
-      this.feed.hasBeenLiked = !this.feed.hasBeenLiked;
-    },
+    ...mapActions(["create_comment", "create_like", "delete_like"]),
   },
 };
 </script>
