@@ -20,11 +20,13 @@
     <v-card-text v-text="`${post.content}`" class="pb-1"></v-card-text>
 
     <v-card-actions class="py-0 mt-1">
-      <v-btn icon @click="create_like()">
-        <v-icon v-if="post.likesId.includes(post.id)" color="red">mdi-heart</v-icon>
-        <v-icon v-else>mdi-heart-outline</v-icon>
+      <v-btn v-if="post.likesId.includes(post.id)" icon @click="create_like()">
+        <v-icon color="red">mdi-heart</v-icon>
       </v-btn>
-      <v-btn icon @click="delete_like()">
+      <v-btn v-else icon @click="delete_like()">
+        <v-icon>mdi-heart-outline</v-icon>
+      </v-btn>
+      <v-btn icon>
         <v-icon>mdi-share-variant</v-icon>
       </v-btn>
     </v-card-actions>
