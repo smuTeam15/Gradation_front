@@ -13,6 +13,7 @@ var config = {
 export default new Vuex.Store({
   state: {
     User: {
+      userId: "",
       userName: "",
       userPicture: "",
       Channel: [],
@@ -27,6 +28,7 @@ export default new Vuex.Store({
   },
   mutations: {
     loginSuccess(state, payload) {
+      state.User.userId = payload.data.userId;
       state.User.userName = payload.data.userName;
       state.User.picture = payload.data.picture;
       state.User.Channel = payload.data.channelList;
@@ -52,7 +54,10 @@ export default new Vuex.Store({
       state.Topics = payload.data;
     },
     read_like(state, payload) {
-      state.Posts[state.Posts.map(x => x.value).indexOf(payload)].likesId = payload.res;
+      state.Posts[state.Posts.map(x => x.value).indexOf(payload.input)].likesId = payload.res;
+    },
+    read_comment(state, payload) {
+      state.Posts[state.Posts.map(x => x.value).indexOf(payload.input)].comments = payload.res;
     }
   },
   actions: {
@@ -437,8 +442,8 @@ export default new Vuex.Store({
         .get(`/api/v1/post/likes/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
-            // console.log("--------------------------")
-            // console.log(res.data)
+            console.log("--------------------------")
+            console.log(res.data)
             commit("read_like", { input, res });
           }
         })
@@ -469,7 +474,7 @@ export default new Vuex.Store({
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)
-            dispatch("read_like", input);
+            dispatch("read_like", input.postId);
           }
           else if (res.status == 204) {
 
@@ -484,12 +489,12 @@ export default new Vuex.Store({
     },
     read_comment({ state, commit }, input) {
       axios
-        .get(`/api/v1/post/comment/${input.postId}`, config)
+        .get(`/api/v1/post/comment/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")
             // console.log(res.data)
-            commit("read_like", res);
+            commit("read_comment", { input, res });
           }
         })
         .catch((err) => {
@@ -501,7 +506,7 @@ export default new Vuex.Store({
         .delete(`/api/v1/post/comment/${postId}/${postCommentId}`, config)
         .then((res) => {
           if (res.status == 200) {
-            dispatch("read_channel");
+            dispatch("read_comment");
           }
         })
         .catch((err) => {
