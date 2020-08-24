@@ -13,8 +13,7 @@
           active-class="purple white--text"
           depressed
           rounded
-          :topic="topic"
-          @click="$router.push({ name: 'DetailTopic' })"
+          @click="$router.push({ name: 'DetailTopic' }, topic)"
         >
           WEEK
           <br />
@@ -66,7 +65,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["Topic"]),
+    ...mapState(["Topics"]),
   },
 };
 </script>

@@ -8,7 +8,7 @@
         min-height="32px"
         min-width="32px"
       >
-        <v-icon v-if="post.userPicture == null">mdi-account-circle</v-icon>
+        <v-icon x-large v-if="post.userPicture == null" color="blue">mdi-account-circle</v-icon>
         <v-img v-else :src="post.userPicture" height="32px" width="32px" />
       </v-list-item-avatar>
       <v-list-item-content class="pa-0">
@@ -20,10 +20,10 @@
     <v-card-text v-text="`${post.content}`" class="pb-1"></v-card-text>
 
     <v-card-actions class="py-0 mt-1">
-      <v-btn v-if="post.likesId.includes(post.id)" icon @click="create_like()">
+      <v-btn v-if="post.likesId.map(x=>x.value).includes(post.id)" icon @click="delete_like()">
         <v-icon color="red">mdi-heart</v-icon>
       </v-btn>
-      <v-btn v-else icon @click="delete_like()">
+      <v-btn v-else icon @click="create_like(post.id)">
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
       <v-btn icon>
@@ -55,7 +55,13 @@
         v-model="comment"
       >
         <template #append>
-          <v-btn icon depressed small class="pb-1" @click="create_comment(comment)">
+          <v-btn
+            icon
+            depressed
+            small
+            class="pb-1"
+            @click="create_comment({ postId: post.id, comment})"
+          >
             <v-icon>mdi-send</v-icon>
           </v-btn>
         </template>

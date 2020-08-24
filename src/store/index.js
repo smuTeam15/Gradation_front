@@ -48,8 +48,11 @@ export default new Vuex.Store({
     read_dailyMission(state, payload) {
       state.DailyMission = payload.data;
     },
+    read_topic(state, payload) {
+      state.Topics = payload.data;
+    },
     read_like(state, payload) {
-      state.Posts;
+      state.Posts[state.Posts.map(x => x.value).indexOf(payload)].likesId = payload.res;
     }
   },
   actions: {
@@ -340,33 +343,18 @@ export default new Vuex.Store({
     // ---------------------------------------
     // WEEKLY TOPIC CRUD ---------------------
     create_topic({ state, dispatch }, input) {
-
-      // console.log(input.first_picture);
-      // console.log(input.second_picture);
-
       const forCreate = {
-        channelId: state.User.currentChannel,
         title: input.title,
         content: input.content,
         category: input.category
       }
 
-      // Log ------------------------
-      // console.log(input.first_picture);
-      // console.log(input.second_picture);
-      // for (let key of forCreate.entries()) {
-      //   console.log(`${key}`);
-      // }
-      // for (let key of forCreate.entries()) {
-      //   console.log(key);
-      // }
-      // ----------------------------
       axios
-        .post("/api/v1/weeklytopic", forCreate, config)
+        .post(`/api/v1/weeklytopic/${state.User.currentChannel}`, forCreate, config)
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)
-            dispatch("read_dailyMission");
+            dispatch("read_topic");
           }
           else if (res.status == 204) {
 
@@ -381,7 +369,7 @@ export default new Vuex.Store({
     },
     read_topic({ state, commit }) {
       axios
-        .get(`/api/v1/dailymission/${state.User.currentChannel}`, config)
+        .get(`/api/v1/weeklytopic/${state.User.currentChannel}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")
@@ -427,11 +415,11 @@ export default new Vuex.Store({
     // Post Likes CRUD ---------------------
     create_like({ state, dispatch }, input) {
       axios
-        .post(`/api/v1/post/likes/${postId}`, config)
+        .post(`/api/v1/post/likes/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)
-            dispatch("read_like");
+            dispatch("read_like", input);
           }
           else if (res.status == 204) {
 
@@ -444,14 +432,14 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    read_like({ state, commit }) {
+    read_like({ state, commit }, input) {
       axios
-        .get(`/api/v1/post/likes/${postId}`, config)
+        .get(`/api/v1/post/likes/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")
             // console.log(res.data)
-            commit("read_like", res);
+            commit("read_like", { input, res });
           }
         })
         .catch((err) => {
@@ -473,33 +461,15 @@ export default new Vuex.Store({
     // ---------------------------------------
     // Post Comment CRUD ---------------------
     create_comment({ state, dispatch }, input) {
-
-      // console.log(input.first_picture);
-      // console.log(input.second_picture);
-
-      const forCreate = {
-        channelId: state.User.currentChannel,
-        title: input.title,
-        content: input.content,
-        category: input.category
+      let forCreate = {
+        comment: input.comment
       }
-
-      // Log ------------------------
-      // console.log(input.first_picture);
-      // console.log(input.second_picture);
-      // for (let key of forCreate.entries()) {
-      //   console.log(`${key}`);
-      // }
-      // for (let key of forCreate.entries()) {
-      //   console.log(key);
-      // }
-      // ----------------------------
       axios
-        .post(`/api/v1/post/comment/${postId}`, forCreate, config)
+        .post(`/api/v1/post/comment/${input.postId}`, forCreate, config)
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)
-            dispatch("read_like");
+            dispatch("read_like", input);
           }
           else if (res.status == 204) {
 
@@ -512,9 +482,9 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    read_comment({ state, commit }) {
+    read_comment({ state, commit }, input) {
       axios
-        .get(`/api/v1/post/comment/${postId}`, config)
+        .get(`/api/v1/post/comment/${input.postId}`, config)
         .then((res) => {
           if (res.status == 200) {
             // console.log("--------------------------")
