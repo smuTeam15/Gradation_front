@@ -42,6 +42,9 @@
     >
       <span v-text="`${item.userName} `"></span>
       <span class="font-weight-regular" v-text="`${item.comment}`"></span>
+      <v-btn class="text-align: right" x-small icon color="red">
+        <v-icon x-small>mdi-close</v-icon>
+      </v-btn>
     </v-card-text>
     <v-card-text class="py-0 mb-1 overline">방금 전</v-card-text>
     <div class="mt-1">
