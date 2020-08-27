@@ -239,12 +239,11 @@ export default new Vuex.Store({
     },
     update_post({ dispatch }, input) {
       const forUpdate = new FormData();
-      forUpdate.append("channelId", state.User.currentChannel);
       forUpdate.append("picture", input.picture);
       forUpdate.append("content", input.content);
 
       axios
-        .put(`/api/v1/post/${channel_id}`, forUpdate, config)
+        .put(`/api/v1/post/${input}`, forUpdate, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -254,9 +253,9 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    delete_post({ dispatch }) {
+    delete_post({ dispatch }, input) {
       axios
-        .delete(`/api/v1/post/${channel_id}`, config)
+        .delete(`/api/v1/post/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
             dispatch("read_channel");
@@ -500,7 +499,7 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    read_comment({ state, commit }, input) {
+    read_comment({ commit }, input) {
       axios
         .get(`/api/v1/post/comment/${input}`, config)
         .then((res) => {
@@ -514,12 +513,12 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    delete_comment({ dispatch }) {
+    delete_comment({ dispatch }, input) {
       axios
-        .delete(`/api/v1/post/comment/${postId}/${postCommentId}`, config)
+        .delete(`/api/v1/post/comment/${input.commentId}`, config)
         .then((res) => {
           if (res.status == 200) {
-            dispatch("read_comment");
+            dispatch("read_comment", input.postId);
           }
         })
         .catch((err) => {
