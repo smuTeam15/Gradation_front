@@ -23,11 +23,11 @@
       <v-btn
         v-if="post.likesId.includes(post.likesId.find(x=>x.userId === User.userId))"
         icon
-        @click="delete_like(post.likesId)"
+        @click="delete_like(post)"
       >
         <v-icon color="red">mdi-heart</v-icon>
       </v-btn>
-      <v-btn v-else icon @click="create_like(post.id)">
+      <v-btn v-else icon @click="create_like(post)">
         <v-icon>mdi-heart-outline</v-icon>
       </v-btn>
       <v-btn icon>

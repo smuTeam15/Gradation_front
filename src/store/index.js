@@ -429,11 +429,11 @@ export default new Vuex.Store({
     // Post Likes CRUD ---------------------
     create_like({ dispatch }, input) {
       axios
-        .post(`/api/v1/post/likes/${input}`, config)
+        .post(`/api/v1/post/likes/${input.id}`, config)
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)
-            dispatch("read_like", input);
+            dispatch("read_like", input.id);
           }
           else if (res.status == 204) {
 
@@ -461,7 +461,7 @@ export default new Vuex.Store({
         });
     },
     delete_like({ state, dispatch }, input) {
-      let resultObj = input.find(x => x.userId === state.User.userId);
+      let resultObj = input.likesId.find(x => x.userId === state.User.userId);
       console.log(resultObj);
       let likesId = resultObj.id;
       console.log(likesId);
@@ -469,7 +469,7 @@ export default new Vuex.Store({
         .delete(`/api/v1/post/likes/${likesId}`, config)
         .then((res) => {
           if (res.status == 200) {
-            dispatch("read_like");
+            dispatch("read_like", input.id);
           }
         })
         .catch((err) => {
