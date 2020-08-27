@@ -59,7 +59,24 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </template>
-            <span>Create Channel</span>
+            <span>채널 생성</span>
+          </v-tooltip>
+
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                @click="dialog = !dialog"
+                fab
+                dark
+                small
+                color="deep-purple"
+                v-on="on"
+                :attrs="attrs"
+              >
+                <v-icon>mdi-subdirectory-arrow-left</v-icon>
+              </v-btn>
+            </template>
+            <span>채널 가입</span>
           </v-tooltip>
 
           <v-tooltip left>
@@ -76,7 +93,7 @@
                 <v-icon>mdi-delete-forever</v-icon>
               </v-btn>
             </template>
-            <span>Exit Channel</span>
+            <span>채널 탈퇴</span>
           </v-tooltip>
         </v-speed-dial>
 

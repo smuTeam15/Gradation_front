@@ -10,6 +10,16 @@
               </div>
               <v-divider></v-divider>
               <div class="pa-5 d-flex justify-space-between align-center">
+                <h2 align="left">Member Management</h2>
+                <v-btn
+                  @click="uDialog = !uDialog"
+                  depressed
+                  small
+                  color="blue"
+                  class="my-2 white--text"
+                >Invite</v-btn>
+              </div>
+              <div class="pa-5 d-flex justify-space-between align-center">
                 <h2 align="left">Update Channel</h2>
                 <v-btn
                   @click="uDialog = !uDialog"

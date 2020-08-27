@@ -51,7 +51,7 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </template>
-              <span>Create Post</span>
+              <span>포스트 작성</span>
             </v-tooltip>
 
             <v-tooltip left>
@@ -68,12 +68,12 @@
                   <v-icon>mdi-settings</v-icon>
                 </v-btn>
               </template>
-              <span>Setting</span>
+              <span>설정</span>
             </v-tooltip>
           </v-speed-dial>
 
           <!-- Post 작성용 dialog -->
-          <v-dialog v-model="dialog" max-width="500px">
+          <v-dialog persistent v-model="dialog" max-width="500px">
             <v-card>
               <v-card-title>
                 <strong>포스트 작성</strong>

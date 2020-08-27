@@ -15,7 +15,7 @@ export default new Vuex.Store({
     User: {
       userId: "",
       userName: "",
-      userPicture: "",
+      userPicture: null,
       Channel: [],
       currentChannel: null,
     },
@@ -36,6 +36,7 @@ export default new Vuex.Store({
       router.push({ name: "Home" });
     },
     logOut(state) {
+      state.User.userId = "";
       state.User.userName = "";
       state.User.picture = "";
       state.User.Channel = [];
@@ -54,13 +55,21 @@ export default new Vuex.Store({
       state.Topics = payload.data;
     },
     read_like(state, payload) {
-      state.Posts[state.Posts.map(x => x.value).indexOf(payload.input)].likesId = payload.res;
+      let resultObj = state.Posts.find(x => x.id === payload.input);
+      let index = state.Posts.indexOf(resultObj);
+      state.Posts[index].likesId = payload.res;
     },
     read_comment(state, payload) {
-      state.Posts[state.Posts.map(x => x.value).indexOf(payload.input)].comments = payload.res;
+      let resultObj = state.Posts.find(x => x.id === payload.input);
+      let index = state.Posts.indexOf(resultObj);
+      state.Posts[index].comments = payload.res;
     }
   },
   actions: {
+    logOut({ commit }) {
+      window.open("/logout", "_self");
+      commit("logout");
+    },
     loading({ commit, dispatch }) {
       axios
         .get("/v1/login", config)
@@ -418,7 +427,7 @@ export default new Vuex.Store({
     },
     // ---------------------------------------
     // Post Likes CRUD ---------------------
-    create_like({ state, dispatch }, input) {
+    create_like({ dispatch }, input) {
       axios
         .post(`/api/v1/post/likes/${input}`, config)
         .then((res) => {
@@ -437,26 +446,30 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    read_like({ state, commit }, input) {
+    read_like({ commit }, input) {
       axios
         .get(`/api/v1/post/likes/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
             console.log("--------------------------")
             console.log(res.data)
-            commit("read_like", { input, res });
+            commit("read_like", { input, res: res.data });
           }
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    delete_like({ dispatch }) {
+    delete_like({ state, dispatch }, input) {
+      let resultObj = input.find(x => x.userId === state.User.userId);
+      console.log(resultObj);
+      let likesId = resultObj.id;
+      console.log(likesId);
       axios
         .delete(`/api/v1/post/likes/${likesId}`, config)
         .then((res) => {
           if (res.status == 200) {
-            dispatch("read_channel");
+            dispatch("read_like");
           }
         })
         .catch((err) => {
@@ -465,7 +478,7 @@ export default new Vuex.Store({
     },
     // ---------------------------------------
     // Post Comment CRUD ---------------------
-    create_comment({ state, dispatch }, input) {
+    create_comment({ dispatch }, input) {
       let forCreate = {
         comment: input.comment
       }
@@ -474,7 +487,7 @@ export default new Vuex.Store({
         .then((res) => {
           if (res.status == 200) {
             console.log(res.data)
-            dispatch("read_like", input.postId);
+            dispatch("read_comment", input.postId);
           }
           else if (res.status == 204) {
 
@@ -494,7 +507,7 @@ export default new Vuex.Store({
           if (res.status == 200) {
             // console.log("--------------------------")
             // console.log(res.data)
-            commit("read_comment", { input, res });
+            commit("read_comment", { input, res: res.data });
           }
         })
         .catch((err) => {
