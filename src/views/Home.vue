@@ -65,7 +65,7 @@
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                @click="dialog = !dialog"
+                @click="jDialog = !jDialog"
                 fab
                 dark
                 small
@@ -157,6 +157,34 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <!-- Channel 가입용 dialog -->
+        <v-dialog v-model="jDialog" persistent max-width="500px">
+          <v-card>
+            <v-card-title>
+              <strong>채널 가입</strong>
+            </v-card-title>
+            <v-divider />
+            <v-card-text class="pt-5">
+              <div class="pt-3 mt-3">
+                <v-text-field v-model="channel_code" placeholder="채널 가입 코드 입력" solo></v-text-field>
+              </div>
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-btn text color="grey darken-1" @click="cancel()">Cancel</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                @click="
+                  join_channel(
+                    channel_code
+                  ), cancel()
+                "
+              >Join</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-app-bar>
     </v-row>
   </v-container>
@@ -172,6 +200,8 @@ export default {
     return {
       fab: false,
       dialog: false,
+      jDialog: false,
+      channel_code: "",
       first_school: "",
       second_school: "",
       first_picture: null,
@@ -190,6 +220,7 @@ export default {
       "read_channel",
       "update_channel",
       "delete_channel",
+      "join_channel",
       "read_post",
       "read_dailyMission",
       "read_topic",
@@ -210,6 +241,8 @@ export default {
       this.category = "";
       this.description = "";
       this.dialog = false;
+      this.jDialog = false;
+      this.channel_code = "";
     },
   },
 };

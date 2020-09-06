@@ -88,6 +88,18 @@ export default new Vuex.Store({
         });
     },
     // Channel CRUD -------------------------------
+    join_channel({ dispatch }, input) {
+      axios
+        .post(`/api/v1/channel/${input}`, config)
+        .then((res) => {
+          if (res.status == 200) {
+            dispatch("read_channel");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     create_channel({ dispatch }, input) {
 
       // console.log(input.first_picture);
@@ -243,10 +255,10 @@ export default new Vuex.Store({
       forUpdate.append("content", input.content);
 
       axios
-        .put(`/api/v1/post/${input}`, forUpdate, config)
+        .put(`/api/v1/post/${input.postId}`, forUpdate, config)
         .then((res) => {
           if (res.status == 200) {
-            dispatch("read_channel");
+            dispatch("read_post");
           }
         })
         .catch((err) => {
@@ -258,7 +270,7 @@ export default new Vuex.Store({
         .delete(`/api/v1/post/${input}`, config)
         .then((res) => {
           if (res.status == 200) {
-            dispatch("read_channel");
+            dispatch("read_post");
           }
         })
         .catch((err) => {

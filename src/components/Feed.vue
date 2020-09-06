@@ -16,7 +16,7 @@
           <v-list-item-title v-text="`${post.userName}`" class="subtitle-2"></v-list-item-title>
         </v-list-item-content>
         <v-list-item-action>
-          <v-menu tile left bottom>
+          <v-menu v-if="post.userId === User.userId" tile left bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
                 <v-icon>mdi-dots-vertical</v-icon>
@@ -71,7 +71,7 @@
         </div>
         <div>
           <v-btn
-            v-if="item.commentId === User.userId"
+            v-if="item.userId === User.userId"
             right
             x-small
             icon
@@ -144,6 +144,7 @@
             color="primary"
             @click="
                     update_post({
+                      postId: post.id,
                       picture,
                       content
                     }), cancel()
